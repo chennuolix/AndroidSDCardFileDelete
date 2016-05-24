@@ -3,6 +3,7 @@ package com.example.chennuo.sdcardfilecompletelydeleted;
 import android.app.Activity;
 import android.app.Dialog;
 import android.app.ProgressDialog;
+import android.graphics.LinearGradient;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -93,18 +94,26 @@ public class DeleteSDFileActivity extends Activity implements View.OnClickListen
 //                    progressDialog.show();
                     toastUtil.toast_short("正在粉碎中");
                     fileOperation = new FileOperation(DeleteSDFileActivity.this, filePath, fileName);
-                    for (int i = 0; i < 2; i++) {
-
-                    }
-                    if (fileOperation.deleteFile()) {
-                        toastUtil.toast_short("删除成功");
-                        if (fileOperation.createFile()) {
-                            toastUtil.toast_short("粉碎完成");
+                    for (int i = 0; i < 1; i++) {
+                        if (fileOperation.deleteFile()) {
+                            Log.d("TAG", "第一次删除成功");
+                            if (fileOperation.createFile()) {
+                                Log.d("TAG", "第一次创建成功");
+                                if (fileOperation.deleteFile()) {
+                                    Log.d("TAG", "第二次删除成功");
+                                    toastUtil.toast_short("粉碎成功");
+                                } else {
+                                    Log.d("TAG", "第二次删除失败");
+                                    toastUtil.toast_short("粉碎失败");
+                                }
+                            } else {
+                                Log.d("TAG", "第一次创建失败");
+                                toastUtil.toast_short("粉碎失败");
+                            }
                         } else {
+                            Log.d("TAG", "第一次删除失败");
                             toastUtil.toast_short("粉碎失败");
                         }
-                    } else {
-                        toastUtil.toast_short("删除失败");
                     }
                 }
                 break;
