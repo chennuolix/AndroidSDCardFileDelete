@@ -3,7 +3,6 @@ package com.example.chennuo.sdcardfilecompletelydeleted;
 import android.app.Activity;
 import android.app.Dialog;
 import android.app.ProgressDialog;
-import android.graphics.LinearGradient;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -34,6 +33,7 @@ public class DeleteSDFileActivity extends Activity implements View.OnClickListen
 
     private String filePath;
     private String fileName;
+    private int fileLength = 0;
 
     private Dialog dialog;
     private ToastUtil toastUtil;
@@ -84,44 +84,61 @@ public class DeleteSDFileActivity extends Activity implements View.OnClickListen
                 break;
             case R.id.btnChoseFile:
                 dialog = onCreateDialog(openfileDialogId);
-                showDialog(onCreateDialog(openfileDialogId));
+                showDialog(dialog);
                 break;
             case R.id.btnStartDelete:
-                if (checkInSDCard(filePath)) {
-//                    progressDialog.setTitle("提示");
-//                    progressDialog.setCancelable(false);
-//                    progressDialog.setMessage("正在粉碎，请稍后...");
-//                    progressDialog.show();
-                    toastUtil.toast_short("正在粉碎中");
-                    fileOperation = new FileOperation(DeleteSDFileActivity.this, filePath, fileName);
-                    for (int i = 0; i < 1; i++) {
-                        if (fileOperation.deleteFile()) {
-                            Log.d("TAG", "第一次删除成功");
-                            if (fileOperation.createFile()) {
-                                Log.d("TAG", "第一次创建成功");
+                if (filePath != null && !filePath.equals("")){
+                    if (checkInSDCard(filePath)) {
+                        toastUtil.toast_short("正在粉碎中");
+                        fileOperation = new FileOperation(DeleteSDFileActivity.this, filePath, fileName);
+                        fileLength = fileOperation.readFileLength();
+                        Log.d("TAG", String.valueOf(fileLength));
+                        if (fileOperation.cleanFile()) {
+                            Log.d("TAG","清空文件成功");
+                            if (fileOperation.writeFile(fileLength)) {
+                                Log.d("TAG","第一次写入数据成功");
                                 if (fileOperation.deleteFile()) {
-                                    Log.d("TAG", "第二次删除成功");
-                                    toastUtil.toast_short("粉碎成功");
+                                    Log.d("TAG", "第一次删除成功");
+                                    if (fileOperation.createFile()) {
+                                        Log.d("TAG", "第一次创建成功");
+                                        if (fileOperation.writeFile(fileLength)) {
+                                            Log.d("TAG", "第二次写入数据成功");
+                                            if (fileOperation.deleteFile()) {
+                                                Log.d("TAG", "第二次删除成功");
+                                                toastUtil.toast_short("粉碎成功");
+                                            } else {
+                                                Log.d("TAG", "第二次删除失败");
+                                                toastUtil.toast_short("粉碎失败");
+                                            }
+                                        } else {
+                                            Log.d("TAG", "第二次写入数据失败");
+                                            toastUtil.toast_short("粉碎失败");
+                                        }
+                                    } else {
+                                        Log.d("TAG", "第一次创建失败");
+                                        toastUtil.toast_short("粉碎失败");
+                                    }
                                 } else {
-                                    Log.d("TAG", "第二次删除失败");
+                                    Log.d("TAG", "第一次删除失败");
                                     toastUtil.toast_short("粉碎失败");
                                 }
                             } else {
-                                Log.d("TAG", "第一次创建失败");
+                                Log.d("TAG","第一次写入数据失败");
                                 toastUtil.toast_short("粉碎失败");
                             }
                         } else {
-                            Log.d("TAG", "第一次删除失败");
+                            Log.d("TAG","清空文件失败");
                             toastUtil.toast_short("粉碎失败");
                         }
                     }
+                } else {
+                    toastUtil.toast_short("请选择文件");
                 }
                 break;
             default:
                 break;
         }
     }
-
 
     protected Dialog onCreateDialog(int id) {
         if (id == openfileDialogId) {
@@ -158,6 +175,7 @@ public class DeleteSDFileActivity extends Activity implements View.OnClickListen
      */
     private void showDialog(final Dialog dialog) {
         dialog.show();
+
     }
 
     /**

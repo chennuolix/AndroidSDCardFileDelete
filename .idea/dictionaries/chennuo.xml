@@ -2,6 +2,8 @@
   <dictionary name="chennuo">
     <words>
       <w>edittext</w>
+      <w>fout</w>
+      <w>fwrite</w>
     </words>
   </dictionary>
 </component>

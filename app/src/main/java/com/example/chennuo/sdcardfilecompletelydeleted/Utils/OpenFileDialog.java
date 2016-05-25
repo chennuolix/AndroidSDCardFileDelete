@@ -5,9 +5,11 @@ package com.example.chennuo.sdcardfilecompletelydeleted.Utils;
  */
 // filename: OpenFileDialog.java
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
+import android.graphics.Path;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -34,6 +36,7 @@ public class OpenFileDialog {
     static final public String sEmpty = "";
     static final private String sOnErrorMsg = "No rights to access!";
 
+
     // 参数说明
     // context:上下文
     // dialogid:对话框ID
@@ -52,6 +55,7 @@ public class OpenFileDialog {
         Dialog dialog = builder.create();
         //dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setTitle(title);
+        dialog.setCancelable(true);
         return dialog;
     }
 
@@ -170,7 +174,6 @@ public class OpenFileDialog {
             list.addAll(lfolders); // 先添加文件夹，确保文件夹显示在上面
             list.addAll(lfiles);    //再添加文件
 
-
             SimpleAdapter adapter = new SimpleAdapter(getContext(), list, R.layout.filedialogitem, new String[]{"img", "name", "path"}, new int[]{R.id.filedialogitem_img, R.id.filedialogitem_name, R.id.filedialogitem_path});
             this.setAdapter(adapter);
             return files.length;
@@ -196,7 +199,7 @@ public class OpenFileDialog {
                 File fl = new File(pt);
                 if (fl.isFile()) {
                     // 如果是文件
-//                    ((Activity) getContext()).removeDialog(this.dialogid); // 让文件夹对话框消失
+//                    ((Activity)getContext()).dismissDialog(this.dialogid); // 让文件夹对话框消失
                     String dismiss = "yes";
                     // 设置回调的返回值
                     Bundle bundle = new Bundle();
