@@ -25,7 +25,7 @@
             android:layout_weight="1"
             android:background="@null"
             android:gravity="center"
-            android:text="粉碎SD卡文件"
+            android:text="删除SD卡文件"
             android:textColor="@color/green"
             android:textSize="20dp" />
 
@@ -75,7 +75,7 @@
             android:layout_height="50dp"
             android:layout_marginRight="15dp"
             android:layout_marginLeft="15dp"
-            android:text="开始粉碎"
+            android:text="开始删除"
             android:textColor="@color/White"
             android:background="@drawable/bg_button"/>
 
@@ -83,6 +83,6 @@
 
 
     </LinearLayout>
-    
-    
+
+
 </LinearLayout>

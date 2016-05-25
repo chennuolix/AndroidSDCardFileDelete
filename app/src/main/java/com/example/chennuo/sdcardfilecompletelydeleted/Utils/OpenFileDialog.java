@@ -5,11 +5,9 @@ package com.example.chennuo.sdcardfilecompletelydeleted.Utils;
  */
 // filename: OpenFileDialog.java
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
-import android.graphics.Path;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -19,7 +17,7 @@ import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.Toast;
 
-import com.example.chennuo.sdcardfilecompletelydeleted.DeleteSDFileActivity;
+import com.example.chennuo.sdcardfilecompletelydeleted.Activity.DeleteSDFileActivity;
 import com.example.chennuo.sdcardfilecompletelydeleted.R;
 
 import java.io.File;
@@ -35,7 +33,6 @@ public class OpenFileDialog {
     static final public String sFolder = ".";
     static final public String sEmpty = "";
     static final private String sOnErrorMsg = "No rights to access!";
-
 
     // 参数说明
     // context:上下文

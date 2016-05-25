@@ -1,8 +1,12 @@
-package com.example.chennuo.sdcardfilecompletelydeleted;
+package com.example.chennuo.sdcardfilecompletelydeleted.Activity;
 
 import android.app.Activity;
 import android.app.Dialog;
 import android.app.ProgressDialog;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -12,6 +16,7 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 
 import com.example.chennuo.sdcardfilecompletelydeleted.File.FileOperation;
+import com.example.chennuo.sdcardfilecompletelydeleted.R;
 import com.example.chennuo.sdcardfilecompletelydeleted.Utils.CallbackBundle;
 import com.example.chennuo.sdcardfilecompletelydeleted.Utils.OpenFileDialog;
 import com.example.chennuo.sdcardfilecompletelydeleted.Utils.ToastUtil;
@@ -41,6 +46,8 @@ public class DeleteSDFileActivity extends Activity implements View.OnClickListen
 
     private FileOperation fileOperation;
 
+    private ReceiverBroadcast receiverBroadcast;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,6 +65,10 @@ public class DeleteSDFileActivity extends Activity implements View.OnClickListen
     private void init() {
         toastUtil = new ToastUtil(DeleteSDFileActivity.this);
         progressDialog = new ProgressDialog.Builder(DeleteSDFileActivity.this);
+        receiverBroadcast = new ReceiverBroadcast();
+        IntentFilter filter = new IntentFilter();
+        filter.addAction("com.example.SDCardFileCompletelyDelete.DeleteSdFileActivity");
+        registerReceiver(receiverBroadcast,filter);
     }
 
 
@@ -106,6 +117,7 @@ public class DeleteSDFileActivity extends Activity implements View.OnClickListen
                                             if (fileOperation.deleteFile()) {
                                                 Log.d("TAG", "第二次删除成功");
                                                 toastUtil.toast_short("粉碎成功");
+                                                etSdFilePath.setText("");
                                             } else {
                                                 Log.d("TAG", "第二次删除失败");
                                                 toastUtil.toast_short("粉碎失败");
@@ -159,6 +171,9 @@ public class DeleteSDFileActivity extends Activity implements View.OnClickListen
                             etSdFilePath.setText(filepath);
                             filePath = filepath;
                             fileName = filename;
+                            Intent intent_broadcast = new Intent();
+                            intent_broadcast.setAction("com.example.SDCardFileCompletelyDelete.DeleteSdFileActivity");
+                            sendBroadcast(intent_broadcast);
                         }
                     },
                     ".wav;",
@@ -196,4 +211,18 @@ public class DeleteSDFileActivity extends Activity implements View.OnClickListen
         return isIn;
     }
 
+    class ReceiverBroadcast extends BroadcastReceiver {
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            dialog.dismiss();
+        }
+    }
+
+
+    @Override
+    protected void onDestroy() {
+        unregisterReceiver(receiverBroadcast);
+        super.onDestroy();
+    }
 }

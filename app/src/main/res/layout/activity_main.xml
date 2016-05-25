@@ -4,46 +4,55 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.example.chennuo.sdcardfilecompletelydeleted.MainActivity">
+    tools:context=".Activity.MainActivity">
 
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:background="@color/White"
-        android:layout_marginBottom="10dp">
+        android:layout_marginBottom="10dp"
+        android:background="@color/White">
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginRight="50dp"
             android:layout_marginLeft="50dp"
-            android:text="帮我删"
-            android:textSize="20sp"
+            android:layout_marginRight="50dp"
             android:gravity="center"
+            android:text="帮我删"
             android:textColor="@color/green"
-            />
+            android:textSize="20sp" />
 
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        >
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
+
+        <Button
+            android:id="@+id/btnDeleteSDFileNormal"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginBottom="10dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:background="@color/colorAccent"
+            android:text="普通删除SD文件"
+            android:textSize="17sp" />
 
         <Button
             android:id="@+id/btnDeleteSDFile"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginRight="20dp"
+            android:layout_height="50dp"
             android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
             android:background="@color/colorAccent"
             android:text="粉碎SD卡文件"
-            android:textSize="17sp"/>
+            android:textSize="17sp" />
 
     </LinearLayout>
-
 
 
 </LinearLayout>
